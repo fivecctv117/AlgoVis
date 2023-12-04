@@ -12,7 +12,7 @@
     display: grid;
     grid-template-columns: repeat(40, 30px); /* 20 columns */
     grid-template-rows: repeat(20, 30px); /* 20 rows */
-    gap: 1px;
+    /* gap: 1px; */
     margin: 10px auto 0;
     border: 1px solid black;
 /*    shadow*/
@@ -32,7 +32,7 @@ html, body {
 
 .cell {
     background-color: var(--accent-color);
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 .wall {
