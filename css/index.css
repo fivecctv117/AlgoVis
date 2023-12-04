@@ -217,7 +217,7 @@ video {
 
 .imageEdit{
     width: 75%;
-    height: 20%;
+    height: 100%;
     margin-left: 20px;
     z-index: 1000000;
 
@@ -226,7 +226,7 @@ video {
 
 .imageEdit:hover{
     width: 75%;
-    height: 20%;
+    height: 100%;
     margin-left: 10px;
     margin-right: 10px;
     transform: scale(1.1);
