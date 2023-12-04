@@ -2,6 +2,7 @@ const arrayContainer = document.getElementById("array-container");
 let array = [];
 
 let transitionSpeed = 300;
+let curAlgorithm = "";
 
 // Generate a simple maze (for now, just random walls)
 
@@ -32,8 +33,24 @@ function generateArray() {
         arrayContainer.appendChild(bar);
     }
 }
+function disableButtons() {
+    algList = ["Bubble", "Merge","Quick"]
+    let undoAlgList = algList.filter(item => item !== curAlgorithm);
 
+    document.querySelectorAll(".button-36").forEach(button => {
+        if(undoAlgList.some(item => button.textContent.includes(item)))
+            button.disabled = true;
+    });
+}
+function enableButtons() {
+    curAlgorithm = ""
+    document.querySelectorAll(".button-36").forEach(button => {
+        button.disabled = false;
+    });
+}
 async function bubbleSort() {
+    curAlgorithm = "Bubble";
+    disableButtons();
     for (let i = 0; i < array.length; i++) {
         for (let j = 0; j < array.length - i - 1; j++) {
             if (array[j] > array[j + 1]) {
@@ -49,6 +66,7 @@ async function bubbleSort() {
         }
     }
     waveColor('#932F6D');
+    enableButtons();
 }
 
 async function mergeSort(array, l, r) {
@@ -115,8 +133,11 @@ async function updateBar(index, height) {
 
 // Start Merge Sort
 async function startMergeSort() {
+    curAlgorithm = "Merge";
+    disableButtons();
     await mergeSort(array, 0, array.length - 1);
     waveColor('#932F6D');
+    enableButtons();
 }
 
 async function partition(array, low, high) {
@@ -171,8 +192,11 @@ async function startInsertionSort() {
 }
 
 async function startQuickSort() {
+    curAlgorithm = "Quick";
+    disableButtons();
     await quickSort(array, 0, array.length - 1)
     waveColor('#932F6D');
+    enableButtons();
 }
 
 function updateUI(index1, index2) {

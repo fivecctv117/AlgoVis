@@ -4,6 +4,7 @@ const COLS = 40;
 let maze = [];
 
 let transitionSpeed = 300;
+let curAlgorithm = "";
 
 document.getElementById('speedRange').addEventListener('input', function() {
     transitionSpeed = 300 - parseInt(this.value);
@@ -55,6 +56,7 @@ async function bfs(startRow, startCol, goalRow, goalCol) {
         if (row === goalRow && col === goalCol) {
             foundGoal = true;
             break; // Stop when goal is reached
+            
         }
 
         // Add adjacent cells to queue
@@ -151,7 +153,6 @@ async function dijkstra(startRow, startCol, goalRow, goalCol) {
 
     maze[startRow][startCol].classList.add("path");
     await new Promise(resolve => setTimeout(resolve, transitionSpeed));
-
 }
 
 async function aStar(startRow, startCol, goalRow, goalCol) {
@@ -213,27 +214,53 @@ async function pathAStar(cameFrom, current) {
         await new Promise(resolve => setTimeout(resolve, transitionSpeed));
     }
 }
+function disableButtons() {
+    algList = ["BFS", "DFS","Dijkstra","A*"]
+    let undoAlgList = algList.filter(item => item !== curAlgorithm);
 
+    document.querySelectorAll(".button-36").forEach(button => {
+        if(undoAlgList.some(item => button.textContent.includes(item)))
+            button.disabled = true;
+    });
+}
+function enableButtons() {
+    curAlgorithm = "";
+    document.querySelectorAll(".button-36").forEach(button => {
+        button.disabled = false;
+    });
+}
 // Start A* from top-left corner to bottom-right corner
 
-function startAStar() {
-    aStar(0, 0, ROWS - 1, COLS - 1); // Assuming bottom-right is the goal
+async function startAStar() {
+    curAlgorithm = "A*";
+    disableButtons();
+    await aStar(0, 0, ROWS - 1, COLS - 1); // Assuming bottom-right is the goal
+    enableButtons();
 }
 
 
 // Start Dijkstra's from top-left corner to bottom-right corner
-function startDijkstra() {
-    dijkstra(0, 0, ROWS - 1, COLS - 1); // Assuming bottom-right is the goal
+async function startDijkstra() {
+    curAlgorithm = "Dijkstra";
+    disableButtons();
+    await dijkstra(0, 0, ROWS - 1, COLS - 1); // Assuming bottom-right is the goal
+    enableButtons();
 }
 
 
-function startDFS() {
-    dfs(0, 0, ROWS - 1, COLS - 1); // Start at top-left, goal at bottom-right
+async function startDFS() {
+    curAlgorithm = "DFS";
+    disableButtons();
+    await dfs(0, 0, ROWS - 1, COLS - 1); // Start at top-left, goal at bottom-right
+    enableButtons();
 }
 
 
-function startBFS() {
-    bfs(0, 0, ROWS - 1,COLS - 1); // Assuming top-left is the start point
+async function startBFS() {
+    curAlgorithm = "BFS";
+    disableButtons();
+    await bfs(0, 0, ROWS - 1,COLS - 1); // Assuming top-left is the start point
+    enableButtons();
 }
 
 // Initialize
